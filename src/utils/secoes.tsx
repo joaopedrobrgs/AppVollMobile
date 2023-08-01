@@ -24,6 +24,7 @@ const secoes = [
         placeholder: "Insira sua senha",
       },
     ],
+    checkboxes: []
   },
   {
     id: 1,
@@ -55,16 +56,21 @@ const secoes = [
         placeholder: "(00) 0 0000-0000",
       },
     ],
+    checkboxes: []
   },
   {
     id: 2,
     titulo: "Para finalizar, qual seu plano de saúde?",
-    entradaTexto: [
+    entradaTexto: [],
+    checkboxes: [
       {
         id: 0,
-        label: "Selecione os planos",
-        values: ["Insira seu CEP"],
+        value: 'Sulamerica'
       },
+      {
+        id: 1,
+        value: 'Unimed'
+      }
     ],
   },
 ];

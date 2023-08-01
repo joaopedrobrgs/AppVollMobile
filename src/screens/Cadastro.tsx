@@ -1,4 +1,4 @@
-import { VStack, Image, Text, Box, Button, Link } from "native-base";
+import { VStack, Image, Text, Box, Button, Link, Checkbox } from "native-base";
 import { TouchableOpacity } from "react-native";
 
 import Logo from "../assets/Logo.png";
@@ -7,32 +7,31 @@ import { EntradaTexto } from "../components/EntradaTexto";
 import { Botao } from "../components/Botao";
 import secoes from "../utils/secoes";
 
-import React, {useState} from 'react';
+import React, { useState } from "react";
 
 interface Props {}
 
 const Login = (props: Props) => {
-
   const [numSecao, setNumSecao] = useState<number>(0);
 
   const handleAvancar = () => {
-    if(numSecao < secoes.length - 1 ){
-      setNumSecao(numSecao + 1)
+    if (numSecao < secoes.length - 1) {
+      setNumSecao(numSecao + 1);
     }
   };
 
   const handleVoltar = () => {
-    if(numSecao > 0){
-      setNumSecao(numSecao - 1)
-    } 
-  }
+    if (numSecao > 0) {
+      setNumSecao(numSecao - 1);
+    }
+  };
 
   return (
     <VStack flex={1} alignItems="center" p={5}>
       <Image source={Logo} alt="Logo Voll"></Image>
       <Titulo>{secoes[numSecao].titulo}</Titulo>
       <Box>
-        {secoes[numSecao].entradaTexto.map((entrada) => (
+        {secoes[numSecao]?.entradaTexto?.map((entrada) => (
           <EntradaTexto
             key={entrada.id}
             label={entrada.label}
@@ -40,8 +39,23 @@ const Login = (props: Props) => {
           />
         ))}
       </Box>
-      {numSecao > 0 && <Botao bg="gray.400" onPress={handleVoltar}>Voltar</Botao>}
-      {numSecao < secoes.length - 1 && <Botao bg="blue.800" onPress={handleAvancar}>Avançar</Botao>}
+      <Checkbox.Group>
+        {secoes[numSecao]?.checkboxes?.map((checkbox) => (
+          <Checkbox key={checkbox.id} value={checkbox.value}>
+            {checkbox.value}
+          </Checkbox>
+        ))}
+      </Checkbox.Group>
+      {numSecao > 0 && (
+        <Botao bg="gray.400" onPress={handleVoltar}>
+          Voltar
+        </Botao>
+      )}
+      {numSecao < secoes.length - 1 && (
+        <Botao bg="blue.800" onPress={handleAvancar}>
+          Avançar
+        </Botao>
+      )}
     </VStack>
   );
 };
