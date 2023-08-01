@@ -40,20 +40,8 @@ const Login = (props: Props) => {
           />
         ))}
       </Box>
-      {
-        numSecao > 0 
-        ? 
-        <Botao bg="gray.400" onPress={handleVoltar}>Voltar</Botao>
-        :
-        <></>
-      }
-      {
-        numSecao < secoes.length - 1 
-        ? 
-        <Botao bg="blue.800" onPress={handleAvancar}>Avançar</Botao>
-        :
-        <></>
-      }
+      {numSecao > 0 && <Botao bg="gray.400" onPress={handleVoltar}>Voltar</Botao>}
+      {numSecao < secoes.length - 1 && <Botao bg="blue.800" onPress={handleAvancar}>Avançar</Botao>}
     </VStack>
   );
 };
