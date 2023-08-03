@@ -6,9 +6,12 @@ import { Titulo } from "../components/Titulo";
 import { EntradaTexto } from "../components/EntradaTexto";
 import { Botao } from "../components/Botao";
 
-interface Props {}
+interface Props {
+    navigation: any
+}
 
-const Login = (props: Props) => {
+const Login = ({navigation}: Props) => {
+
     return (
         <VStack flex={1} alignItems="center" justifyContent="center" p={5}>
             <Image source={Logo} alt="Logo Voll"></Image>
@@ -25,7 +28,7 @@ const Login = (props: Props) => {
             </Link>
             <Box w="100%" flexDirection="row" justifyContent="center" mt={8}>
                 <Text>Ainda não tem cadastro? </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
                     <Text color="blue.500"> Faça seu cadastro!</Text>
                 </TouchableOpacity>
             </Box>

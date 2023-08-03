@@ -1,4 +1,5 @@
-const secoes = [
+//Array que contém os campos do formulário (vai ser importado na tela Cadastro):
+export const secoesFormulario = [
   {
     id: 0,
     titulo: "Insira alguns dados básicos",
@@ -55,6 +56,21 @@ const secoes = [
         label: "Telefone",
         placeholder: "(00) 0 0000-0000",
       },
+      {
+        id: 5,
+        label: "Cidade",
+        placeholder: "Insira sua cidade",
+      },
+      {
+        id: 6,
+        label: "Estado",
+        placeholder: "Insira seu estado",
+      },
+      {
+        id: 7,
+        label: "País",
+        placeholder: "Insira seu país",
+      },
     ],
     checkboxes: []
   },
@@ -70,9 +86,31 @@ const secoes = [
       {
         id: 1,
         value: 'Unimed'
-      }
+      },
+      {
+        id: 2,
+        value: 'Bradesco'
+      },
+      {
+        id: 3,
+        value: 'Amil'
+      },
+      {
+        id: 4,
+        value: 'Biosaúde'
+      },
+      {
+        id: 5,
+        value: 'Biovida'
+      },
+      {
+        id: 6,
+        value: 'Outros'
+      },
+      {
+        id: 7,
+        value: 'Não tenho plano'
+      },
     ],
   },
 ];
-
-export default secoes;
