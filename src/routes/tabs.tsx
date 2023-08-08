@@ -20,61 +20,63 @@ import Perfil from "../screens/Perfil";
 
 //Criando componente de rotas:
 export const Tabs = () => {
+
+  //Options do Tab.Navigator
+  const screenOptions = {
+    tabBarStyle: {
+      backgroundColor: "#002851"
+    },
+    tabBarActiveTintColor: "#339cff",
+    tabBarInactiveTintColor: "#FFF"
+  }
+
+  const tabs = [
+    //Tela Principal
+    {
+      name: 'Principal',
+      component: Principal,
+      icon: 'home'
+    },
+    //Tela de Consultas
+    {
+      name: 'Consultas',
+      component: Consultas,
+      icon: 'calendar'
+    },
+    //Tela de Pesquisa
+    {
+      name: 'Pesquisa',
+      component: Pesquisa,
+      icon: 'search'
+    },
+    //Tela de Perfil
+    {
+      name: 'Perfil',
+      component: Perfil,
+      icon: 'person'
+    },
+  ]
+
   return (
     <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: {
-          backgroundColor: "#002851"
-        },
-        tabBarActiveTintColor: "#339cff",
-        tabBarInactiveTintColor: "#FFF"
-      }}
+      screenOptions={screenOptions}
     >
       {/* Criando telas de fato: */}
-      {/* Tela Principal: */}
-      <Tab.Screen
-        name="Principal"
-        component={Principal}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="home" color={color} size={size} />
-          )
-        }}
-      />
-      {/* Tela de Consultas: */}
-      <Tab.Screen
-        name="Consultas"
-        component={Consultas}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="calendar" color={color} size={size} />
-          )
-        }}
-      />
-      {/* Tela de Pesquisa: */}
-      <Tab.Screen
-        name="Pesquisa"
-        component={Pesquisa}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="search" color={color} size={size} />
-          )
-        }}
-      />
-      {/* Tela de Pesquisa: */}
-      <Tab.Screen
-        name="Perfil"
-        component={Perfil}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="person-outline" color={color} size={size} />
-          )
-        }}
-      />
+      {
+        tabs.map((tab, index)=>(
+          <Tab.Screen
+            key={`${tab.name}-${index}`}
+            name={tab.name}
+            component={tab.component}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name={tab.icon} color={color} size={size} />
+              )
+            }}
+          />
+        ))
+      }
     </Tab.Navigator>
   );
 };
