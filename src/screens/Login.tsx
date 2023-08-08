@@ -6,7 +6,7 @@ import { Titulo } from "../components/Titulo";
 import { EntradaTexto } from "../components/EntradaTexto";
 import { Botao } from "../components/Botao";
 
-interface Props {
+type Props = {
     navigation: any
 }
 
@@ -22,7 +22,7 @@ const Login = ({navigation}: Props) => {
                 <EntradaTexto label="Email" placeholder="Insira seu endereço de -email" />
                 <EntradaTexto label="Senha" placeholder="Insira sua senha" />
             </Box>
-            <Botao bg="blue.800">Entrar</Botao>
+            <Botao bg="blue.800" onPress={() => navigation.navigate('Tabs')}>Entrar</Botao>
             <Link href="https://alura.com.br" mt={2}>
                 Esqueceu sua senha?
             </Link>

@@ -18,9 +18,9 @@ import { secoesFormulario as secoes } from "../utils/Utils";
 
 import React, { useState } from "react";
 
-interface Props {}
+type Props = {}
 
-const Cadastro = (props: Props) => {
+const Cadastro = ({}: Props) => {
   const [numSecao, setNumSecao] = useState<number>(0);
 
   const handleAvancar = () => {

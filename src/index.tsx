@@ -1,8 +1,8 @@
 import React from 'react';
 import { NativeBaseProvider, StatusBar } from 'native-base';
-import { TEMAS } from './src/styles/Temas';
+import { TEMAS } from './styles/Temas';
 
-import Rotas from './src/routes/Rotas';
+import Rotas from './routes/index';
 
 export default function App() {
   return (
