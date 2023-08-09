@@ -1,5 +1,5 @@
 //Array que contém os campos do formulário (vai ser importado na tela Cadastro):
-export const secoesFormulario = [
+export const secoesFormularioCadastro = [
   {
     id: 0,
     titulo: "Insira alguns dados básicos",
@@ -25,7 +25,7 @@ export const secoesFormulario = [
         placeholder: "Insira sua senha",
       },
     ],
-    checkboxes: []
+    checkboxes: [],
   },
   {
     id: 1,
@@ -72,7 +72,7 @@ export const secoesFormulario = [
         placeholder: "Insira seu país",
       },
     ],
-    checkboxes: []
+    checkboxes: [],
   },
   {
     id: 2,
@@ -81,35 +81,35 @@ export const secoesFormulario = [
     checkboxes: [
       {
         id: 0,
-        value: 'Sulamerica'
+        value: "Sulamerica",
       },
       {
         id: 1,
-        value: 'Unimed'
+        value: "Unimed",
       },
       {
         id: 2,
-        value: 'Bradesco'
+        value: "Bradesco",
       },
       {
         id: 3,
-        value: 'Amil'
+        value: "Amil",
       },
       {
         id: 4,
-        value: 'Biosaúde'
+        value: "Biosaúde",
       },
       {
         id: 5,
-        value: 'Biovida'
+        value: "Biovida",
       },
       {
         id: 6,
-        value: 'Outros'
+        value: "Outros",
       },
       {
         id: 7,
-        value: 'Não tenho plano'
+        value: "Não tenho plano",
       },
     ],
   },

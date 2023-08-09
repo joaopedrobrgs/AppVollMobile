@@ -14,7 +14,9 @@ import Logo from "../assets/Logo.png";
 import { Titulo } from "../components/Titulo";
 import { EntradaTexto } from "../components/EntradaTexto";
 import { Botao } from "../components/Botao";
-import { secoesFormulario as secoes } from "../utils/Utils";
+import { secoesFormularioCadastro as secoes } from "../utils/secoesFormularioCadastro";
+
+import { RFValue } from "../utils/RFValue";
 
 import React, { useState } from "react";
 
@@ -38,7 +40,7 @@ const Cadastro = ({}: Props) => {
   return (
     <ScrollView flex={1} p={5}>
       <Image source={Logo} alt="Logo Voll" alignSelf="center"></Image>
-      <Titulo>{secoes[numSecao].titulo}</Titulo>
+      <Titulo fontSize={RFValue(24)}>{secoes[numSecao].titulo}</Titulo>
       {secoes[numSecao]?.entradaTexto.length > 0 ? (
         <Box>
           {secoes[numSecao]?.entradaTexto?.map((entrada) => (

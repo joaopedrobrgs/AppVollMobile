@@ -6,6 +6,8 @@ import { Titulo } from "../components/Titulo";
 import { EntradaTexto } from "../components/EntradaTexto";
 import { Botao } from "../components/Botao";
 
+import { RFValue } from "../utils/RFValue";
+
 type Props = {
     navigation: any
 }
@@ -15,7 +17,7 @@ const Login = ({navigation}: Props) => {
     return (
         <VStack flex={1} alignItems="center" justifyContent="center" p={5}>
             <Image source={Logo} alt="Logo Voll"></Image>
-            <Titulo>
+            <Titulo fontSize={RFValue(24)}>
                 Faça login em sua conta
             </Titulo>
             <Box>
