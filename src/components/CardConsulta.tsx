@@ -11,8 +11,8 @@ interface Props extends ITextProps {
   nomeEspecialista: string;
   especialidade: string;
   data?: string;
-  foiAtendido: boolean;
-  foiAgendado: boolean;
+  foiAtendido?: boolean;
+  foiAgendado?: boolean;
 }
 
 const CardConsulta = ({
@@ -20,8 +20,9 @@ const CardConsulta = ({
   nomeEspecialista,
   especialidade,
   data,
-  foiAtendido,
-  foiAgendado,
+  foiAtendido = false,
+  foiAgendado = false,
+  ...rest
 }: Props) => {
   return (
     <VStack
@@ -30,6 +31,7 @@ const CardConsulta = ({
       p={5}
       borderRadius="lg"
       shadow="2"
+      {...rest}
     >
       <VStack flexDir="row" alignItems="center">
         <Avatar size="lg" source={{ uri: urlFoto }} />
@@ -43,7 +45,7 @@ const CardConsulta = ({
         <Botao mt={4} backgroundColor="blue.800">
           {!foiAgendado && !foiAtendido && "Agendar Consulta"}
           {foiAgendado && !foiAtendido && "Cancelar"}
-          {foiAgendado && foiAtendido && "Consultar novamente"}
+          {foiAtendido && "Consultar novamente"}
         </Botao>
       </VStack>
     </VStack>
