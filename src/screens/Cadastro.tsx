@@ -14,7 +14,7 @@ import Logo from "../assets/Logo.png";
 import { Titulo } from "../components/Titulo";
 import { EntradaTexto } from "../components/EntradaTexto";
 import { Botao } from "../components/Botao";
-import { secoesFormularioCadastro as secoes } from "../utils/secoesFormularioCadastro";
+import { SecoesFormularioCadastro as secoes } from "../utils/SecoesFormularioCadastro";
 
 import { RFValue } from "../utils/RFValue";
 
@@ -48,6 +48,7 @@ const Cadastro = ({}: Props) => {
               key={entrada.id}
               label={entrada.label}
               placeholder={entrada.placeholder}
+              type={"text"}
             />
           ))}
         </Box>

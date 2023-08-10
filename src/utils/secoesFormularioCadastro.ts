@@ -1,5 +1,5 @@
 //Array que contém os campos do formulário (vai ser importado na tela Cadastro):
-export const secoesFormularioCadastro = [
+export const SecoesFormularioCadastro = [
   {
     id: 0,
     titulo: "Insira alguns dados básicos",

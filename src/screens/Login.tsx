@@ -21,8 +21,8 @@ const Login = ({navigation}: Props) => {
                 Faça login em sua conta
             </Titulo>
             <Box>
-                <EntradaTexto label="Email" placeholder="Insira seu endereço de -email" />
-                <EntradaTexto label="Senha" placeholder="Insira sua senha" />
+                <EntradaTexto label="Email" type="text" placeholder="Insira seu endereço de -email" />
+                <EntradaTexto label="Senha" type="password" placeholder="Insira sua senha" />
             </Box>
             <Botao bg="blue.800" onPress={() => navigation.navigate('Tabs')}>Entrar</Botao>
             <Link href="https://alura.com.br" mt={2}>

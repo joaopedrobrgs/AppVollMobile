@@ -7,7 +7,7 @@ const Pesquisa = (props: Props) => {
   return (
     <VStack>
       <Text>
-        Principal
+        Explorar
       </Text>
     </VStack>
   )

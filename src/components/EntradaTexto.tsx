@@ -1,17 +1,21 @@
 import React from 'react'
-import { FormControl, Input } from 'native-base'
+import { FormControl, ITextProps, Input } from 'native-base'
 
-interface Props {
-    label: string,
-    placeholder: string
+import { RFValue } from '../utils/RFValue'
+
+interface Props extends ITextProps {
+    label?: string,
+    placeholder?: string,
+    type: "text" | "password"
 }
 
-export const EntradaTexto = ({label, placeholder, ...rest}: Props) => {
+export const EntradaTexto = ({label, placeholder, type, ...rest}: Props) => {
     return (
-        <FormControl mt={3}>
+        <FormControl mt={RFValue(3)}>
             <FormControl.Label>{label}</FormControl.Label>
             <Input
                 placeholder={placeholder}
+                type={type} 
                 size="lg"
                 w="100%"
                 borderRadius="lg"
