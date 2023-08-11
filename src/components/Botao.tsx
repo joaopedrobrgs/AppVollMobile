@@ -11,7 +11,7 @@ export const Botao = ({children, ...rest}: Props) => {
     return (
         <Button
             w="100%"
-            mt={RFValue(10)}
+            // mt={RFValue(10)}
             borderRadius="lg"
             {...rest}
         >

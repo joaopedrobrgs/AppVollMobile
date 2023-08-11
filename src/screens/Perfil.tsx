@@ -13,7 +13,7 @@ type Props = {};
 const Perfil = (props: Props) => {
   return (
     <ScrollView flex={1}>
-      <VStack flex={1} alignItems='center' p={RFValue(5)}>
+      <VStack flex={1} alignItems='center' p={RFValue(5)} mb={RFValue(10)}>
         <Titulo fontSize={RFValue(24)}>Meu Perfil</Titulo>
         <Avatar
           source={{
@@ -21,14 +21,14 @@ const Perfil = (props: Props) => {
           }}
           mt={RFValue(5)}
         />
-        <Titulo color={"blue.500"} fontSize={RFValue(18)}>Informações Pessoais</Titulo>
-        <Text style={styles.textBold} m={RFValue(1)}>João Pedro Borges Santos</Text>
+        <Titulo color={"blue.500"} fontSize={RFValue(18)} my={RFValue(5)}>Informações Pessoais</Titulo>
+        <Text style={styles.textBold}>João Pedro Borges Santos</Text>
         <Text style={styles.textNormal}>18/01/1996</Text>
         <Text style={styles.textNormal}>Uberlândia/MG</Text>
-        <Divider mt={RFValue(5)}/>
-        <Titulo color={"blue.500"} mb={RFValue(1)} fontSize={RFValue(18)}>Histórico médico</Titulo>
-        <Text style={styles.textBold} m={RFValue(1)}>• Bronquite</Text>
-        <Text style={styles.textBold} m={RFValue(1)}>• Sinusite</Text>
+        <Divider my={RFValue(5)}/>
+        <Titulo color={"blue.500"} mb={RFValue(4)} fontSize={RFValue(18)}>Histórico médico</Titulo>
+        <Text style={styles.textBold} mt={RFValue(1)}>• Bronquite</Text>
+        <Text style={styles.textBold} mt={RFValue(1)}>• Sinusite</Text>
       </VStack>
     </ScrollView>
   );

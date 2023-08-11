@@ -14,7 +14,7 @@ export const Titulo = ({children, ...rest}: Props) => {
             fontWeight="bold"
             color="gray.500"
             textAlign="center"
-            mt={RFValue(5)}
+            // mt={RFValue(5)}
             {...rest}
         >
             {children}

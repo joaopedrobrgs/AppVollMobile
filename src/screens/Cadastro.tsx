@@ -20,7 +20,7 @@ import { RFValue } from "../utils/RFValue";
 
 import React, { useState } from "react";
 
-type Props = {}
+type Props = {};
 
 const Cadastro = ({}: Props) => {
   const [numSecao, setNumSecao] = useState<number>(0);
@@ -38,9 +38,11 @@ const Cadastro = ({}: Props) => {
   };
 
   return (
-    <ScrollView flex={1} p={5}>
+    <ScrollView flex={1} p={RFValue(5)}>
       <Image source={Logo} alt="Logo Voll" alignSelf="center"></Image>
-      <Titulo fontSize={RFValue(24)}>{secoes[numSecao].titulo}</Titulo>
+      <Titulo fontSize={RFValue(24)} mt={RFValue(5)}>
+        {secoes[numSecao].titulo}
+      </Titulo>
       {secoes[numSecao]?.entradaTexto.length > 0 ? (
         <Box>
           {secoes[numSecao]?.entradaTexto?.map((entrada) => (
@@ -49,26 +51,29 @@ const Cadastro = ({}: Props) => {
               label={entrada.label}
               placeholder={entrada.placeholder}
               type={"text"}
+              mt={RFValue(5)}
             />
           ))}
         </Box>
       ) : (
         <Box>
-          <Text color="blue.800" fontWeight="bold" fontSize="md" mt="2" mb={2}>Selecione os planos:</Text>
+          <Text color="blue.800" fontWeight="bold" fontSize={RFValue(16)} mt={RFValue(4)} mb={RFValue(1)}>
+            Selecione os planos:
+          </Text>
           {secoes[numSecao]?.checkboxes?.map((checkbox) => (
-            <Checkbox key={checkbox.id} value={checkbox.value}>
+            <Checkbox key={checkbox.id} value={checkbox.value} mt={RFValue(3)}>
               {checkbox.value}
             </Checkbox>
           ))}
         </Box>
       )}
       {numSecao > 0 && (
-        <Botao bg="gray.400" onPress={handleVoltar}>
+        <Botao bg="gray.400" onPress={handleVoltar} mt={RFValue(6)}>
           Voltar
         </Botao>
       )}
       {numSecao < secoes.length - 1 && (
-        <Botao bg="blue.800" mt={4} onPress={handleAvancar} mb={20}>
+        <Botao bg="blue.800" mt={RFValue(6)}  mb={RFValue(20)} onPress={handleAvancar}>
           Avançar
         </Botao>
       )}

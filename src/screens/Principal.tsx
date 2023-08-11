@@ -16,43 +16,56 @@ type Props = {};
 const Principal = (props: Props) => {
   return (
     <ScrollView flex={1}>
-      <Image source={Logo} alt="Logo Voll" m={RFValue(5)} />
-      <Titulo
-        color={"blue.500"}
-        textAlign="left"
-        marginX={RFValue(5)}
-        fontSize={RFValue(24)}
-      >
-        Boas-Vindas!
-      </Titulo>
-      <VStack flex={1} alignItems={"center"} m={RFValue(5)}>
-        <VStack w={"100%"} p={RFValue(5)} shadow={2} backgroundColor="white" borderRadius="lg">
-          <Box>
-            <EntradaTexto type="text" placeholder="Digite a especialidade" />
-            <EntradaTexto type="text" placeholder="Digite sua localização" />
-            <Botao backgroundColor="blue.800" mt={RFValue(5)}>
-              Buscar
-            </Botao>
-          </Box>
-        </VStack>
-        <Titulo fontSize={RFValue(24)} color={"blue.800"} mb={RFValue(3)}>
-          Depoimentos
+      <VStack w="100%" key="cabecalho">
+        <Image source={Logo} alt="Logo Voll" m={RFValue(5)} />
+        <Titulo
+          color={"blue.500"}
+          textAlign="left"
+          marginX={RFValue(5)}
+          fontSize={RFValue(24)}
+        >
+          Boas-Vindas!
         </Titulo>
-        {depoimentos.map((depoimento, index) => (
-          <>
-            <VStack
-              key={`depoimento-${depoimento.id}`}
-              style={styles.containerDepoimento}
-            >
-              <Text style={styles.textoDepoimento}>{depoimento.texto}</Text>
-              <Text style={styles.textoUsuario}>
-                {depoimento.nome}, {depoimento.idade} anos, {depoimento.cidade}/
-                {depoimento.estado}.
-              </Text>
-            </VStack>
-            <Divider mb={RFValue(5)} />
-          </>
-        ))}
+      </VStack>
+      <VStack flex={1} alignItems={"center"} m={RFValue(5)} key="pesquisa">
+        <Box
+          w="100%"
+          p={RFValue(5)}
+          shadow="2"
+          backgroundColor="white"
+          borderRadius="lg"
+        >
+          <EntradaTexto type="text" placeholder="Digite a especialidade" />
+          <EntradaTexto
+            type="text"
+            placeholder="Digite sua localização"
+            mt={RFValue(5)}
+          />
+          <Botao backgroundColor="blue.800" mt={RFValue(5)}>
+            Buscar
+          </Botao>
+        </Box>
+        <VStack w="100%" mt={RFValue(5)} key="depoimentos" mb={RFValue(10)}>
+          <Titulo fontSize={RFValue(24)} color={"blue.800"}>
+            Depoimentos
+          </Titulo>
+          {depoimentos.map((depoimento, index) => (
+            <>
+              <VStack
+                key={`depoimento-${depoimento.id}`}
+                style={styles.containerDepoimento}
+                mt={RFValue(5)}
+              >
+                <Text style={styles.textoDepoimento}>{depoimento.texto}</Text>
+                <Text style={styles.textoUsuario}>
+                  {depoimento.nome}, {depoimento.idade} anos,{" "}
+                  {depoimento.cidade}/{depoimento.estado}.
+                </Text>
+              </VStack>
+              <Divider />
+            </>
+          ))}
+        </VStack>
       </VStack>
     </ScrollView>
   );

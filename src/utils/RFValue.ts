@@ -71,7 +71,7 @@ export function RFValue(size: number) {
       return size * 1.25;
     }
 
-    if (deviceHeight <= 798) {
+    if (deviceHeight <= 845) {
       return size * 1;
     }
     // catch larger phablet devices

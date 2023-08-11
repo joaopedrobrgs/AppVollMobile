@@ -28,14 +28,14 @@ const CardConsulta = ({
     <VStack
       w="100%"
       bg={foiAtendido ? "blue.100" : "white"}
-      p={5}
+      p={RFValue(5)}
       borderRadius="lg"
       shadow="2"
       {...rest}
     >
       <VStack flexDir="row" alignItems="center">
         <Avatar size="lg" source={{ uri: urlFoto }} />
-        <VStack pl="4">
+        <VStack pl={RFValue(4)}>
           <Text style={styles.textBold}>{nomeEspecialista}</Text>
           <Text style={styles.textNormal}>{especialidade}</Text>
           <Text style={styles.textNormal}>{data}</Text>
