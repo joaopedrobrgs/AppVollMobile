@@ -1,10 +1,12 @@
 import { api } from "./useApi";
 
-import { Login,  } from "../@types/Authentication";
+import { FormDataLogin  } from "../@types/Authentication";
 import { LoginResultDataType } from "../@types/RetornoApi";
 
 //Hook que iremos utilizar para fazer login no aplicativo:
-export async function fazerLogin({email, senha}: Login): Promise<LoginResultDataType> | null {
+export async function fazerLogin({email, senha}: FormDataLogin)
+// : Promise<LoginResultDataType> | null 
+{
   if(!email || !senha){
     return null;
   }
@@ -15,7 +17,7 @@ export async function fazerLogin({email, senha}: Login): Promise<LoginResultData
     })
     return resultado;
   }catch(error){
-    console.log(error?.msg);
-    return null;
+    console.log(error);
+    return error;
   }
 }

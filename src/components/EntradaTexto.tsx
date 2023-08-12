@@ -13,12 +13,17 @@ interface Props extends ITextProps {
   onChangeText?: (text: string) => void;
 }
 
-export const EntradaTexto = ({ label, placeholder, type, secureTextEntry, value, onChangeText, ...rest }: Props) => {
+export const EntradaTexto = ({
+  label,
+  placeholder,
+  type,
+  secureTextEntry,
+  value,
+  onChangeText,
+  ...rest
+}: Props) => {
   return (
-    <FormControl
-      // mt={RFValue(3)}
-      {...rest}
-    >
+    <>
       {label && <FormControl.Label>{label}</FormControl.Label>}
       <Input
         placeholder={placeholder}
@@ -32,6 +37,6 @@ export const EntradaTexto = ({ label, placeholder, type, secureTextEntry, value,
         value={value}
         onChangeText={onChangeText}
       />
-    </FormControl>
+    </>
   );
 };
