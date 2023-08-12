@@ -1,4 +1,4 @@
-import { Box, ScrollView, Text, VStack } from "native-base";
+import { Box, ScrollView, Text, VStack, useToast } from "native-base";
 import React from "react";
 import { EntradaTexto } from "../components/EntradaTexto";
 import { Botao } from "../components/Botao";

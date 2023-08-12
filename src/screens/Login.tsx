@@ -1,55 +1,127 @@
-import { VStack, Image, Text, Box, Button, Link, View } from "native-base";
+import {
+  VStack,
+  Image,
+  Text,
+  Box,
+  Button,
+  Link,
+  View,
+  useToast,
+} from "native-base";
 import { TouchableOpacity } from "react-native";
 
 import Logo from "../assets/Logo.png";
+
+import { useEffect, useLayoutEffect, useState } from "react";
+
+//Importando componentes personalizados que nós criamos:
 import { Titulo } from "../components/Titulo";
 import { EntradaTexto } from "../components/EntradaTexto";
 import { Botao } from "../components/Botao";
 
-import { RFValue } from "../utils/RFValue";
-import { useState } from "react";
-
+//Importando componentes do react-hook-form (utilizado para manipularmos um formulário sem precisar de criar estados):
 import { Controller, useForm } from "react-hook-form";
 
 //Importando hook de fazer login
 import { fazerLogin } from "../hooks/useAutenticacao";
+
+//Importando AsyncStorage (utilizado para salvar dados no celular do usuário):
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+//Importando jwtDecode (utilizado para pegar dados através do token retornado pelo Back-end):
+import jwtDecode from "jwt-decode";
+
+//Importando utilitários:
+//Função que nós criamos para validar se e-mail é válido:
+import ValidateEmail from "../utils/ValidateEmail";
+//Função que criamos para dar responsividade à tela:
+import { RFValue } from "../utils/RFValue";
+
+//Importando tipos que utilizares aqui na tela de Login:
 import { FormDataLogin } from "../@types/Authentication";
+import {
+  LoginResultType,
+  LoginResultDataType,
+  tokenReturnData,
+} from "../@types/RetornoApi";
 
 type Props = {
   navigation: any;
 };
 
 const Login = ({ navigation }: Props) => {
-  const [errorMessage, setErrorMessage] = useState<null | string>(null);
+  // const [errorMessage, setErrorMessage] = useState<null | string>(null);
+  const toast = useToast();
+  const [carregando, setCarregando] = useState<boolean>(true);
+
+  useEffect(() => {
+    async function verificarLogin() {
+      const token = await AsyncStorage.getItem("token");
+      if (!!token) {
+        navigation.replace("Tabs");
+      }
+      setCarregando(false);
+    }
+    verificarLogin();
+  }, []);
 
   //Função que é disparada quando pressionamos o botão "Entrar":
   async function handleLogin(data: FormDataLogin) {
-
     //Pegando dados digitados no formulário da página:
     const { email, senha } = data;
 
-    //Checando se e-mail digitado é válido:
+    //Checando se usuário digitou um e-mail:
     if (!email || email === "") {
-      setErrorMessage('Informe um e-mail')
+      toast.show({
+        title: "Campo e-mail vazio!",
+        description: "Informe seu e-mail...",
+        backgroundColor: "red.500",
+        textAlign: "center",
+      });
       return;
     }
 
-    //Checando se senha digitada é válida:
+    //Checando se e-mail digitado é válido:
+    if (!ValidateEmail(email)) {
+      toast.show({
+        title: "E-mail inválido!",
+        description: "Digite um e-mail válido...",
+        backgroundColor: "red.500",
+        textAlign: "center",
+      });
+      return;
+    }
+
+    //Checando se usuário digitou uma senha:
     if (!senha || senha === "") {
-      setErrorMessage('Informe uma senha')
+      toast.show({
+        title: "Campo senha vazio!",
+        description: "Informe sua senha...",
+        backgroundColor: "red.500",
+        textAlign: "center",
+      });
       return;
     }
 
     //Enviando requisição e pegando resultado da requisição:
-    const resultado = await fazerLogin({ email, senha });
+    const resultado: LoginResultType = await fazerLogin({ email, senha });
     //Verificando se resultado foi válido e fazendo algo a partir disso:
     if (!!resultado) {
+      //Pegando token no resultado da requisição:
+      const { token }: LoginResultDataType = resultado.data;
+      //Salvando esse token no armazenamento local com AsyncStorage:
+      await AsyncStorage.setItem("token", token);
+      //Pegando esse token decodificado:
+      const tokenDecodificado: tokenReturnData = jwtDecode(token);
+      //Token decodificado retorna: id, role e outros dois dados. Vamos pegar apenas "id":
+      const { id } = tokenDecodificado;
+      //Salvando "id" do usuário no armazenamento local:
+      await AsyncStorage.setItem("usuarioId", id);
+      //Navegando para tela pós login:
       navigation.replace("Tabs");
-      console.log(resultado)
     } else {
       console.log("Erro");
     }
-
   }
 
   const {
@@ -61,6 +133,10 @@ const Login = ({ navigation }: Props) => {
     watch,
     formState: { errors },
   } = useForm<FormDataLogin>();
+
+  if (!!carregando) {
+    return <></>;
+  }
 
   return (
     <VStack flex={1} alignItems="center" justifyContent="center" p={RFValue(5)}>
@@ -110,11 +186,6 @@ const Login = ({ navigation }: Props) => {
       <Botao bg="blue.800" onPress={handleSubmit(handleLogin)} mt={RFValue(8)}>
         Entrar
       </Botao>
-      {!!errorMessage && (
-        <View>
-          <Text style={{color: 'red'}}>{errorMessage}</Text>
-        </View>
-      )}
       <Link href="https://alura.com.br" mt={RFValue(2)}>
         Esqueceu sua senha?
       </Link>
