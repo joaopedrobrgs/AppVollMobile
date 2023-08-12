@@ -3,13 +3,17 @@ import { FormControl, ITextProps, Input } from "native-base";
 
 import { RFValue } from "../utils/RFValue";
 
+//Propriedades que iremos definir no componente filho (que vai utilizar esse componente):
 interface Props extends ITextProps {
   label?: string;
   placeholder?: string;
-  type: "text" | "password";
+  type?: "text" | "password";
+  secureTextEntry?: boolean;
+  value?: string;
+  onChangeText?: (text: string) => void;
 }
 
-export const EntradaTexto = ({ label, placeholder, type, ...rest }: Props) => {
+export const EntradaTexto = ({ label, placeholder, type, secureTextEntry, value, onChangeText, ...rest }: Props) => {
   return (
     <FormControl
       // mt={RFValue(3)}
@@ -24,6 +28,9 @@ export const EntradaTexto = ({ label, placeholder, type, ...rest }: Props) => {
         borderRadius="lg"
         bgColor="gray.100"
         shadow="3"
+        secureTextEntry={secureTextEntry}
+        value={value}
+        onChangeText={onChangeText}
       />
     </FormControl>
   );
