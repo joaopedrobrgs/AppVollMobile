@@ -101,6 +101,7 @@ export const SecoesFormularioCadastro = [
   {
     id: 2,
     titulo: "Para finalizar, qual seu plano de saúde?",
+    name: "planos",
     entradaTexto: [],
     checkboxes: [
       {
@@ -130,10 +131,6 @@ export const SecoesFormularioCadastro = [
       {
         id: 6,
         value: "Outros",
-      },
-      {
-        id: 7,
-        value: "Não tenho plano",
       },
     ],
   },

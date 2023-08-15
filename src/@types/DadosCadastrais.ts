@@ -11,10 +11,8 @@ export type FormDadosCadastraisType = {
   numero?: string,
   complemento?: string,
   telefone?: string,
-  cidade?: string,
   estado?: string,
-  pais?: string,
-  planos?: Array<string>
+  planos?: Array<number | string>
 }
 
 export type EnderecoType = {
