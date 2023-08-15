@@ -38,11 +38,11 @@ import ValidateEmail from "../utils/ValidateEmail";
 import { RFValue } from "../utils/RFValue";
 
 //Importando tipos que utilizares aqui na tela de Login:
-import { FormDataLogin } from "../@types/Authentication";
+import { FormDataLoginType } from "../@types/Authentication";
 import {
   LoginResultType,
   LoginResultDataType,
-  tokenReturnData,
+  tokenReturnDataType,
 } from "../@types/RetornoApi";
 
 type Props = {
@@ -50,13 +50,21 @@ type Props = {
 };
 
 const Login = ({ navigation }: Props) => {
-  // const [errorMessage, setErrorMessage] = useState<null | string>(null);
+
+  //Apagando token para testes:
+  useLayoutEffect(()=>{
+    async function removeToken(){
+      await AsyncStorage.removeItem("@token");
+    }
+    removeToken();
+  }, [])
+
   const toast = useToast();
   const [carregando, setCarregando] = useState<boolean>(true);
 
   useEffect(() => {
     async function verificarLogin() {
-      const token = await AsyncStorage.getItem("token");
+      const token = await AsyncStorage.getItem("@token");
       if (!!token) {
         navigation.replace("Tabs");
       }
@@ -66,7 +74,7 @@ const Login = ({ navigation }: Props) => {
   }, []);
 
   //Função que é disparada quando pressionamos o botão "Entrar":
-  async function handleLogin(data: FormDataLogin) {
+  async function handleLogin(data: FormDataLoginType) {
     //Pegando dados digitados no formulário da página:
     const { email, senha } = data;
 
@@ -110,13 +118,13 @@ const Login = ({ navigation }: Props) => {
       //Pegando token no resultado da requisição:
       const { token }: LoginResultDataType = resultado.data;
       //Salvando esse token no armazenamento local com AsyncStorage:
-      await AsyncStorage.setItem("token", token);
+      await AsyncStorage.setItem("@token", token);
       //Pegando esse token decodificado:
-      const tokenDecodificado: tokenReturnData = jwtDecode(token);
+      const tokenDecodificado: tokenReturnDataType = jwtDecode(token);
       //Token decodificado retorna: id, role e outros dois dados. Vamos pegar apenas "id":
       const { id } = tokenDecodificado;
       //Salvando "id" do usuário no armazenamento local:
-      await AsyncStorage.setItem("usuarioId", id);
+      await AsyncStorage.setItem("@idUsuario", id);
       //Navegando para tela pós login:
       navigation.replace("Tabs");
     } else {
@@ -132,7 +140,7 @@ const Login = ({ navigation }: Props) => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormDataLogin>();
+  } = useForm<FormDataLoginType>();
 
   if (!!carregando) {
     return <></>;

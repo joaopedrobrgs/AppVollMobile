@@ -11,7 +11,7 @@ export type LoginResultDataType = {
 }
 
 //Tipagem dos dados que são retornados pelo token:
-export type tokenReturnData = {
+export type tokenReturnDataType = {
   "id": string,
   "role": string,
   "iat"?: number | string,

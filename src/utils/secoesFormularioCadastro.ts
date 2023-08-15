@@ -8,21 +8,43 @@ export const SecoesFormularioCadastro = [
         id: 0,
         label: "Nome",
         placeholder: "Digite seu nome completo",
+        type: "text",
+        name: "nome"
       },
       {
         id: 1,
         label: "Email",
         placeholder: "Insira seu endereço de email",
+        type: "text",
+        name: "email"
       },
       {
         id: 2,
-        label: "Crie uma senha",
-        placeholder: "Insira sua senha",
+        label: "CPF",
+        placeholder: "Insira seu CPF",
+        type: "text",
+        name: "cpf"
       },
       {
         id: 3,
+        label: "Foto de perfil",
+        placeholder: "Insira sua foto de perfil",
+        type: "text",
+        name: "imagem"
+      },
+      {
+        id: 4,
+        label: "Crie uma senha",
+        placeholder: "Insira sua senha",
+        type: "password",
+        name: "senha"
+      },
+      {
+        id: 5,
         label: "Repita a senha",
         placeholder: "Insira sua senha",
+        type: "password",
+        name: "confirmarSenha"
       },
     ],
     checkboxes: [],
@@ -35,41 +57,43 @@ export const SecoesFormularioCadastro = [
         id: 0,
         label: "CEP",
         placeholder: "Insira seu CEP",
+        type: "text",
+        name: "cep"
       },
       {
         id: 1,
-        label: "Endereço",
-        placeholder: "Insira seu endereço",
+        label: "Rua",
+        placeholder: "Insira o nome da rua",
+        type: "text",
+        name: "rua"
       },
       {
         id: 2,
         label: "Número",
         placeholder: "Insira seu número",
+        type: "text",
+        name: "numero"
       },
       {
         id: 3,
         label: "Complemento",
         placeholder: "Insira seu complemento",
+        type: "text",
+        name: "complemento"
       },
       {
         id: 4,
         label: "Telefone",
         placeholder: "(00) 0 0000-0000",
+        type: "text",
+        name: "telefone"
       },
       {
         id: 5,
-        label: "Cidade",
-        placeholder: "Insira sua cidade",
-      },
-      {
-        id: 6,
         label: "Estado",
         placeholder: "Insira seu estado",
-      },
-      {
-        id: 7,
-        label: "País",
-        placeholder: "Insira seu país",
+        type: "text",
+        name: "estado"
       },
     ],
     checkboxes: [],

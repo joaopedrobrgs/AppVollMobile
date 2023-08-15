@@ -1,29 +1,49 @@
 import {
-  VStack,
   Image,
   Text,
   Box,
-  Button,
-  Link,
   Checkbox,
   ScrollView,
 } from "native-base";
-import { TouchableOpacity } from "react-native";
 
 import Logo from "../assets/Logo.png";
 import { Titulo } from "../components/Titulo";
 import { EntradaTexto } from "../components/EntradaTexto";
 import { Botao } from "../components/Botao";
+
+//Importando os campos do nosso formulário de cadastro:
 import { SecoesFormularioCadastro as secoes } from "../utils/SecoesFormularioCadastro";
 
 import { RFValue } from "../utils/RFValue";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
+//Importando nossa tipagem do formulário de dados cadastrais:
+import { FormDadosCadastraisType } from "../@types/DadosCadastrais";
 
 type Props = {};
 
 const Cadastro = ({}: Props) => {
+
   const [numSecao, setNumSecao] = useState<number>(0);
+  
+  //Estado que vai armazenar nossos dados cadastrais:
+  const [dadosCadastrais, setDadosCadastrais] = useState<FormDadosCadastraisType>({})
+
+  //Função que vai atualizar nosso estado de dados cadastrais
+    //Ela vai ser executada sempre que algo for alterado lá no nosso formulário
+    //Ela pega os dados que já estavam armazenado, faz um spread neles dentro do objeto
+    //e depois adiciona o valor que está sendo digitado no momento
+  function atualizarDados(name: string, text: string): void{
+    setDadosCadastrais({
+      ...dadosCadastrais,
+      [name]: text
+    })
+  }
+
+  useEffect(()=>{
+    console.log(dadosCadastrais)
+  }, [dadosCadastrais])
 
   const handleAvancar = () => {
     if (numSecao < secoes.length - 1) {
@@ -50,8 +70,12 @@ const Cadastro = ({}: Props) => {
               key={entrada.id}
               label={entrada.label}
               placeholder={entrada.placeholder}
-              type={"text"}
+              type={entrada.type}
               mt={RFValue(5)}
+              //Atrelando valor do input ao valor que está sendo armazenado no estado "dadosCadastrais"
+              value={dadosCadastrais[entrada.name]}
+              //Executando função de atualizar dados (que atualiza o estados "dadosCadastrais") toda vez que algo é digitado no input:
+              onChangeText={(text)=>atualizarDados(entrada.name, text)}
             />
           ))}
         </Box>

@@ -1,5 +1,5 @@
 //Tipagem dos dados que serão enviados à API quando fizermos LOGIN:
-export type FormDataLogin = {
+export type FormDataLoginType = {
   email: string,
   senha: string
 }
