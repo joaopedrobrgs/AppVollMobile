@@ -23,7 +23,7 @@ import { Botao } from "../components/Botao";
 import { Controller, useForm } from "react-hook-form";
 
 //Importando hook de fazer login
-import { fazerLogin } from "../hooks/useAutenticacao";
+import { fazerLogin } from "../servicos/AutenticacaoServico";
 
 //Importando AsyncStorage (utilizado para salvar dados no celular do usuário):
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -38,11 +38,11 @@ import ValidateEmail from "../utils/ValidateEmail";
 import { RFValue } from "../utils/RFValue";
 
 //Importando tipos que utilizares aqui na tela de Login:
-import { FormDataLoginType } from "../@types/Authentication";
+import { FormLoginUsuarioType } from "../@types/Authentication";
 import {
   LoginResultType,
   LoginResultDataType,
-  tokenReturnDataType,
+  TokenReturnDataType,
 } from "../@types/RetornoApi";
 
 type Props = {
@@ -74,7 +74,7 @@ const Login = ({ navigation }: Props) => {
   }, []);
 
   //Função que é disparada quando pressionamos o botão "Entrar":
-  async function handleLogin(data: FormDataLoginType) {
+  async function handleLogin(data: FormLoginUsuarioType) {
     //Pegando dados digitados no formulário da página:
     const { email, senha } = data;
 
@@ -120,7 +120,7 @@ const Login = ({ navigation }: Props) => {
       //Salvando esse token no armazenamento local com AsyncStorage:
       await AsyncStorage.setItem("@token", token);
       //Pegando esse token decodificado:
-      const tokenDecodificado: tokenReturnDataType = jwtDecode(token);
+      const tokenDecodificado: TokenReturnDataType = jwtDecode(token);
       //Token decodificado retorna: id, role e outros dois dados. Vamos pegar apenas "id":
       const { id } = tokenDecodificado;
       //Salvando "id" do usuário no armazenamento local:
@@ -128,7 +128,7 @@ const Login = ({ navigation }: Props) => {
       //Navegando para tela pós login:
       navigation.replace("Tabs");
     } else {
-      console.log("Erro");
+      console.log("Erro ao fazer login!");
     }
   }
 
@@ -140,7 +140,7 @@ const Login = ({ navigation }: Props) => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormDataLoginType>();
+  } = useForm<FormLoginUsuarioType>();
 
   if (!!carregando) {
     return <></>;

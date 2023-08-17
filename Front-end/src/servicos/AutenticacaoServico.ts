@@ -1,10 +1,10 @@
-import { api } from "./useApi";
+import { api } from "./Api";
 
-import { FormDataLogin  } from "../@types/Authentication";
+import { FormLoginUsuarioType  } from "../@types/Authentication";
 import { LoginResultDataType } from "../@types/RetornoApi";
 
-//Hook que iremos utilizar para fazer login no aplicativo:
-export async function fazerLogin({email, senha}: FormDataLogin)
+//Serviço que iremos utilizar para fazer login no aplicativo:
+export async function fazerLogin({email, senha}: FormLoginUsuarioType)
 // : Promise<LoginResultDataType> | null 
 {
   if(!email || !senha){

@@ -8,6 +8,7 @@ import {
   Select,
   VStack,
   Switch,
+  useToast,
 } from "native-base";
 
 import Logo from "../assets/Logo.png";
@@ -23,16 +24,20 @@ import { RFValue } from "../utils/RFValue";
 import React, { useEffect, useState } from "react";
 
 //Importando nossa tipagem do formulário de dados cadastrais:
-import { FormDadosCadastraisType } from "../@types/DadosCadastrais";
+import { FormCadastroUsuarioType } from "../@types/DadosCadastrais";
+import { cadastrarPaciente } from "../servicos/PacienteServico";
 
-type Props = {};
+type Props = {
+  navigation: any;
+};
 
-const Cadastro = ({}: Props) => {
+const Cadastro = ({ navigation }: Props) => {
   const [numSecao, setNumSecao] = useState<number>(0);
 
+  const toast = useToast();
+
   //Estado que vai armazenar nossos dados cadastrais:
-  const [dadosCadastrais, setDadosCadastrais] =
-    useState<FormDadosCadastraisType>({});
+  const [dadosCadastrais, setDadosCadastrais] = useState({} as any);
 
   const [possuiPlano, setPossuiPlano] = useState<boolean>(false);
 
@@ -60,6 +65,98 @@ const Cadastro = ({}: Props) => {
   }, [possuiPlano]);
 
   const handleAvancar = () => {
+    if (numSecao === 0) {
+      if (!dadosCadastrais.nome) {
+        toast.show({
+          title: 'Campo "Nome" obrigatório!',
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+      if (!dadosCadastrais.email) {
+        toast.show({
+          title: 'Campo "Email" obrigatório!',
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+      if (!dadosCadastrais.cpf) {
+        toast.show({
+          title: 'Campo "CPF" obrigatório!',
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+      if (!dadosCadastrais.senha) {
+        toast.show({
+          title: "Senha obrigatória!",
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+      if (!dadosCadastrais.confirmarSenha) {
+        toast.show({
+          title: "Deve confirmar a senha!",
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+      if (dadosCadastrais.senha !== dadosCadastrais.confirmarSenha) {
+        toast.show({
+          title: "Senhas não correspondem!",
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+    }
+    if (numSecao === 1) {
+      if (!dadosCadastrais.cep) {
+        toast.show({
+          title: 'Campo "CEP" obrigatório!',
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+      if (!dadosCadastrais.rua) {
+        toast.show({
+          title: 'Campo "Rua" obrigatório!',
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+      if (!dadosCadastrais.numero) {
+        toast.show({
+          title: 'Campo "Número" obrigatório!',
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+      if (!dadosCadastrais.telefone) {
+        toast.show({
+          title: 'Campo "Telefone" obrigatório!',
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+      if (!dadosCadastrais.estado) {
+        toast.show({
+          title: 'Campo "Estado" obrigatório!',
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+    }
     if (numSecao < secoes.length - 1) {
       setNumSecao(numSecao + 1);
     }
@@ -71,7 +168,42 @@ const Cadastro = ({}: Props) => {
     }
   };
 
-  const handleEnviarFormulario = ()=>{}
+  async function handleCadastro() {
+    const resultado = await cadastrarPaciente({
+      nome: dadosCadastrais.nome,
+      cpf: dadosCadastrais.cpf,
+      email: dadosCadastrais.email,
+      senha: dadosCadastrais.senha,
+      imagem: dadosCadastrais.imagem,
+      endereco: {
+        cep: dadosCadastrais.cep,
+        rua: dadosCadastrais.rua,
+        numero: dadosCadastrais.numero,
+        complemento: dadosCadastrais?.complemento,
+        estado: dadosCadastrais.estado,
+      },
+      possuiPlanoSaude: possuiPlano,
+      planosSaude: planos,
+      telefone: dadosCadastrais.telefone,
+    });
+
+    if (!resultado) {
+      toast.show({
+        title: "Erro ao fazer cadastro!",
+        description: "Tente novamente mais tarde...",
+        backgroundColor: "red.500",
+        textAlign: "center",
+      });
+    } else {
+      toast.show({
+        title: "Cadastro realizado com sucesso",
+        description: "",
+        backgroundColor: "green.500",
+        textAlign: "center",
+      });
+      navigation.replace("Login");
+    }
+  }
 
   return (
     <ScrollView flex={1} p={RFValue(5)}>
@@ -177,7 +309,7 @@ const Cadastro = ({}: Props) => {
           bg="blue.800"
           mt={RFValue(6)}
           mb={RFValue(20)}
-          onPress={handleEnviarFormulario}
+          onPress={handleCadastro}
         >
           Finalizar Cadastro
         </Botao>

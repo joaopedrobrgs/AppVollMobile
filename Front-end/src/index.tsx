@@ -3,7 +3,7 @@ import { NativeBaseProvider, StatusBar } from 'native-base';
 import { TEMAS } from './styles/Temas';
 
 import Rotas from './routes/index';
-import { api } from './hooks/useApi';
+import { api } from './servicos/Api';
 
 export default function App() {
 
