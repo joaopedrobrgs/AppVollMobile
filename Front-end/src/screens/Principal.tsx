@@ -50,9 +50,8 @@ const Principal = (props: Props) => {
             Depoimentos
           </Titulo>
           {depoimentos.map((depoimento, index) => (
-            <>
+            <VStack key={`depoimento-${depoimento.id}`}>
               <VStack
-                key={`depoimento-${depoimento.id}`}
                 style={styles.containerDepoimento}
                 mt={RFValue(5)}
               >
@@ -63,7 +62,7 @@ const Principal = (props: Props) => {
                 </Text>
               </VStack>
               <Divider />
-            </>
+            </VStack>
           ))}
         </VStack>
       </VStack>

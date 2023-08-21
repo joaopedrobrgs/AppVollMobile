@@ -24,8 +24,8 @@ import { RFValue } from "../utils/RFValue";
 import React, { useEffect, useState } from "react";
 
 //Importando nossa tipagem do formulário de dados cadastrais:
-import { FormCadastroUsuarioType } from "../@types/DadosCadastrais";
-import { cadastrarPaciente } from "../servicos/PacienteServico";
+import { FormCadastroUsuarioType } from "../@types/Cadastro";
+import { cadastrarUsuario } from "../servicos/PacienteServico";
 
 type Props = {
   navigation: any;
@@ -37,7 +37,8 @@ const Cadastro = ({ navigation }: Props) => {
   const toast = useToast();
 
   //Estado que vai armazenar nossos dados cadastrais:
-  const [dadosCadastrais, setDadosCadastrais] = useState({} as any);
+  const [dadosCadastrais, setDadosCadastrais] =
+    useState<FormCadastroUsuarioType>({});
 
   const [possuiPlano, setPossuiPlano] = useState<boolean>(false);
 
@@ -53,16 +54,6 @@ const Cadastro = ({ navigation }: Props) => {
       [name]: text,
     });
   }
-
-  useEffect(() => {
-    console.log(dadosCadastrais);
-  }, [dadosCadastrais]);
-  useEffect(() => {
-    console.log(planos);
-  }, [planos]);
-  useEffect(() => {
-    console.log(possuiPlano);
-  }, [possuiPlano]);
 
   const handleAvancar = () => {
     if (numSecao === 0) {
@@ -168,41 +159,75 @@ const Cadastro = ({ navigation }: Props) => {
     }
   };
 
-  async function handleCadastro() {
-    const resultado = await cadastrarPaciente({
-      nome: dadosCadastrais.nome,
-      cpf: dadosCadastrais.cpf,
-      email: dadosCadastrais.email,
-      senha: dadosCadastrais.senha,
-      imagem: dadosCadastrais.imagem,
-      endereco: {
-        cep: dadosCadastrais.cep,
-        rua: dadosCadastrais.rua,
-        numero: dadosCadastrais.numero,
-        complemento: dadosCadastrais?.complemento,
-        estado: dadosCadastrais.estado,
-      },
-      possuiPlanoSaude: possuiPlano,
-      planosSaude: planos,
-      telefone: dadosCadastrais.telefone,
-    });
+  //Pegando estados e métodos da nossa função de cadastrar paciente:
+  const { response, error, isLoading, sendFetch } = cadastrarUsuario();
 
-    if (!resultado) {
-      toast.show({
-        title: "Erro ao fazer cadastro!",
-        description: "Tente novamente mais tarde...",
-        backgroundColor: "red.500",
-        textAlign: "center",
-      });
-    } else {
+  //Verificando se requisição está sendo processada:
+  useEffect(() => {
+    if (!!isLoading) {
+      console.log("Enviando requisição...");
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (!!response) {
+      console.log("Status: ", response.status);
+      console.log("Data: ", response.data);
+      console.log("Error: ", error)
+      if (response.status !== 202) {
+        toast.show({
+          title: "Algo deu errado!",
+          description: "Tente novamente mais tarde...",
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
       toast.show({
         title: "Cadastro realizado com sucesso",
         description: "",
         backgroundColor: "green.500",
         textAlign: "center",
       });
+      setDadosCadastrais({});
+      setPossuiPlano(false);
+      setPlanos([]);
       navigation.replace("Login");
     }
+  }, [response]);
+
+  useEffect(() => {
+    if (!!error) {
+      console.log("Data: ", response);
+      console.log("Error: ", error);
+      toast.show({
+        title: "Algo deu errado!",
+        description: "Tente novamente mais tarde...",
+        backgroundColor: "red.500",
+        textAlign: "center",
+      });
+    }
+  }, [error]);
+
+  async function handleCadastro() {
+    await sendFetch({
+      nome: dadosCadastrais.nome,
+      cpf: dadosCadastrais.cpf,
+      email: dadosCadastrais.email,
+      senha: dadosCadastrais.senha,
+      imagem: dadosCadastrais.imagem ?? "",
+      estaAtivo: true,
+      endereco: {
+        cep: dadosCadastrais.cep,
+        rua: dadosCadastrais.rua,
+        numero: dadosCadastrais.numero,
+        complemento: dadosCadastrais?.complemento ?? "",
+        estado: dadosCadastrais.estado,
+      },
+      possuiPlanoSaude: possuiPlano,
+      planosSaude: planos ?? [],
+      telefone: dadosCadastrais.telefone,
+    });
   }
 
   return (
@@ -309,7 +334,7 @@ const Cadastro = ({ navigation }: Props) => {
           bg="blue.800"
           mt={RFValue(6)}
           mb={RFValue(20)}
-          onPress={handleCadastro}
+          onPress={() => handleCadastro()}
         >
           Finalizar Cadastro
         </Botao>

@@ -1,30 +1,33 @@
-import { api } from "./Api";
-
-import { FormLoginUsuarioType } from "../@types/Login";
-import { LoginResponseDataType, LogoutResponseType } from "../@types/RespostasApi";
-import { useState } from "react";
 import { AxiosResponse } from "axios";
+import { FormBuscarEspecialistasType } from "../@types/BuscaEspecialistas";
+import { EspecialistaDataResponseType } from "../@types/RespostasApi";
+import { api } from "./Api";
+import { useState } from "react";
 
-//Serviço que iremos utilizar para fazer login no aplicativo:
-export function fazerLogin() {
-  const [response, setResponse] = useState<AxiosResponse<LoginResponseDataType> | null>(null);
+export function buscarEspecialistasLocalEspecialidade() {
+
+  const [response, setResponse] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
-  const sendFetch = async ({ email, senha }: FormLoginUsuarioType) => {
-    if (!email || !senha) {
-      setError("Necessário preencher os campos email e senha!")
+  const sendFetch = async ({estado, especialidade}: FormBuscarEspecialistasType) => {
+
+    //Se o parâmetro da função estiver vazio, retornar nulo:
+    if (!estado || !especialidade) {
+      setError("Necessário preencher estado e especialidade!");
       return;
     }
     //Tentar fazer requisição para API:
     try {
-      // apiResponse.isLoading = true;
       setIsLoading(true);
-      //Requisição do tipo "post" para a rota "paciente" para fazer o cadastro do usuario (que é um paciente):
+      //Requisição do tipo "get" para a rota "especialista/buscar" passando estado e especialidade (por meio de query)
+      //para buscar especialistas especificos:
       await api
-        .post("auth/login/", {
-          email,
-          senha,
+        .get(`especialista/busca`, {
+          params: {
+            estado: estado,
+            especialidade: especialidade
+          }
         })
         //Se der tudo certo, retornar resultado que a API envia:
         .then((response) => {
@@ -41,9 +44,9 @@ export function fazerLogin() {
         });
     } catch (err) {
       //Se der algo errado com o contato com a API, retornar esse erro:
-      setError(err);
       setResponse(null);
       setIsLoading(false);
+      setError(err);
     }
   };
 
@@ -55,28 +58,21 @@ export function fazerLogin() {
   };
 }
 
-//Serviço que iremos utilizar para fazer logout no aplicativo:
-export function fazerLogout() {
-  
-  const [response, setResponse] = useState<AxiosResponse<LogoutResponseType> | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<any>(null);
+export function buscarTodosEspecialistas() {
 
-  const sendFetch = async ({ email, senha }: FormLoginUsuarioType) => {
-    if (!email || !senha) {
-      setError("Necessário preencher os campos email e senha!")
-      return;
-    }
+  const [response, setResponse] = useState<AxiosResponse<any> | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<AxiosResponse<any> | string | null>(null);
+
+  const sendFetch = async () => {
+
     //Tentar fazer requisição para API:
     try {
       // apiResponse.isLoading = true;
       setIsLoading(true);
-      //Requisição do tipo "post" para a rota "paciente" para fazer o cadastro do usuario (que é um paciente):
+      //Requisição do tipo "get" para a rota "especialista" para buscar todos os especialistas disponíveis:
       await api
-        .post("auth/login/", {
-          email,
-          senha,
-        })
+        .get(`especialista`)
         //Se der tudo certo, retornar resultado que a API envia:
         .then((response) => {
           setError(null);
@@ -92,9 +88,9 @@ export function fazerLogout() {
         });
     } catch (err) {
       //Se der algo errado com o contato com a API, retornar esse erro:
-      setError(err);
       setResponse(null);
       setIsLoading(false);
+      setError(err);
     }
   };
 

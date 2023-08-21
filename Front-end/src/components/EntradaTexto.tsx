@@ -36,6 +36,7 @@ export const EntradaTexto = ({
         secureTextEntry={secureTextEntry}
         value={value}
         onChangeText={onChangeText}
+        {...rest}
       />
     </>
   );

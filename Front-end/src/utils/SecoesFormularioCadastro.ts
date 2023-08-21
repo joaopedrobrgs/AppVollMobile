@@ -83,17 +83,17 @@ export const SecoesFormularioCadastro = [
       },
       {
         id: 4,
-        label: "Telefone",
-        placeholder: "(00) 0 0000-0000",
-        type: "text",
-        name: "telefone"
-      },
-      {
-        id: 5,
         label: "Estado",
         placeholder: "Insira seu estado",
         type: "text",
         name: "estado"
+      },
+      {
+        id: 5,
+        label: "Telefone",
+        placeholder: "(00) 0 0000-0000",
+        type: "text",
+        name: "telefone"
       },
     ],
     checkboxes: [],

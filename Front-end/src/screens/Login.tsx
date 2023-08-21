@@ -38,12 +38,13 @@ import ValidateEmail from "../utils/ValidateEmail";
 import { RFValue } from "../utils/RFValue";
 
 //Importando tipos que utilizares aqui na tela de Login:
-import { FormLoginUsuarioType } from "../@types/Authentication";
+import { FormLoginUsuarioType } from "../@types/Login";
 import {
-  LoginResultType,
-  LoginResultDataType,
-  TokenReturnDataType,
-} from "../@types/RetornoApi";
+  LoginResponseType,
+  LoginResponseDataType,
+  TokenResponseDataType,
+} from "../@types/RespostasApi";
+import { AxiosResponse } from "axios";
 
 type Props = {
   navigation: any;
@@ -51,13 +52,13 @@ type Props = {
 
 const Login = ({ navigation }: Props) => {
 
-  //Apagando token para testes:
-  useLayoutEffect(()=>{
-    async function removeToken(){
-      await AsyncStorage.removeItem("@token");
-    }
-    removeToken();
-  }, [])
+  // Apagando token para testes:
+  // useLayoutEffect(() => {
+  //   async function removeToken() {
+  //     await AsyncStorage.removeItem("@token");
+  //   }
+  //   removeToken();
+  // }, []);
 
   const toast = useToast();
   const [carregando, setCarregando] = useState<boolean>(true);
@@ -72,6 +73,65 @@ const Login = ({ navigation }: Props) => {
     }
     verificarLogin();
   }, []);
+
+  const { response, error, isLoading, sendFetch } = fazerLogin();
+
+  useEffect(() => {
+    if (!!isLoading) {
+      console.log("Enviando requisição...");
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (!!error) {
+      console.log("Data: ", response);
+      console.log("Error: ", error);
+      toast.show({
+        title: "Algo deu errado!",
+        description: "Tente novamente mais tarde...",
+        backgroundColor: "red.500",
+        textAlign: "center",
+      });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (!!response) {
+      console.log("Status: ", response.status);
+      console.log("Data: ", response.data);
+      console.log("Error: ", error);
+      if (response.status !== 200) {
+        toast.show({
+          title: "Algo deu errado!",
+          description: "Tente novamente mais tarde...",
+          backgroundColor: "red.500",
+          textAlign: "center",
+        });
+        return;
+      }
+      toast.show({
+        title: "Login realizado com sucesso",
+        description: "",
+        backgroundColor: "green.500",
+        textAlign: "center",
+      });
+      async function loginSuccess() {
+        //Pegando token no resultado da requisição:
+        const { token } = response.data;
+        //Salvando esse token no armazenamento local com AsyncStorage:
+        await AsyncStorage.setItem("@token", token);
+        //Pegando esse token decodificado:
+        const tokenDecodificado: TokenResponseDataType = jwtDecode(token);
+        //Token decodificado retorna: id, role e outros dois dados. Vamos pegar apenas "id":
+        const { id } = tokenDecodificado;
+        //Salvando "id" do usuário no armazenamento local:
+        await AsyncStorage.setItem("@idUsuario", id);
+        //Navegando para tela pós login:
+        navigation.replace("Tabs");
+      }
+      loginSuccess();
+    }
+  }, [response]);
 
   //Função que é disparada quando pressionamos o botão "Entrar":
   async function handleLogin(data: FormLoginUsuarioType) {
@@ -111,25 +171,7 @@ const Login = ({ navigation }: Props) => {
       return;
     }
 
-    //Enviando requisição e pegando resultado da requisição:
-    const resultado: LoginResultType = await fazerLogin({ email, senha });
-    //Verificando se resultado foi válido e fazendo algo a partir disso:
-    if (!!resultado) {
-      //Pegando token no resultado da requisição:
-      const { token }: LoginResultDataType = resultado.data;
-      //Salvando esse token no armazenamento local com AsyncStorage:
-      await AsyncStorage.setItem("@token", token);
-      //Pegando esse token decodificado:
-      const tokenDecodificado: TokenReturnDataType = jwtDecode(token);
-      //Token decodificado retorna: id, role e outros dois dados. Vamos pegar apenas "id":
-      const { id } = tokenDecodificado;
-      //Salvando "id" do usuário no armazenamento local:
-      await AsyncStorage.setItem("@idUsuario", id);
-      //Navegando para tela pós login:
-      navigation.replace("Tabs");
-    } else {
-      console.log("Erro ao fazer login!");
-    }
+    await sendFetch({ email, senha });
   }
 
   const {

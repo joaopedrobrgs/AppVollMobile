@@ -13,15 +13,17 @@ interface Props extends ITextProps {
   data?: string;
   foiAtendido?: boolean;
   foiAgendado?: boolean;
+  onPress?: ()=> any | void;
 }
 
 const CardConsulta = ({
   urlFoto,
   nomeEspecialista,
   especialidade,
-  data,
+  // data,
   foiAtendido = false,
   foiAgendado = false,
+  onPress,
   ...rest
 }: Props) => {
   return (
@@ -38,11 +40,13 @@ const CardConsulta = ({
         <VStack pl={RFValue(4)}>
           <Text style={styles.textBold}>{nomeEspecialista}</Text>
           <Text style={styles.textNormal}>{especialidade}</Text>
-          <Text style={styles.textNormal}>{data}</Text>
+          {/* <Text style={styles.textNormal}>{data}</Text> */}
         </VStack>
       </VStack>
       <VStack>
-        <Botao mt={4} backgroundColor="blue.800">
+        <Botao mt={4} backgroundColor="blue.800"
+          onPress={onPress}
+        >
           {!foiAgendado && !foiAtendido && "Agendar Consulta"}
           {foiAgendado && !foiAtendido && "Cancelar"}
           {foiAtendido && "Consultar novamente"}
